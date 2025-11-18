@@ -58,20 +58,19 @@ A **4:1 multiplexer** selects one of four data inputs (i0..i3) and routes it to 
 
 ```verilog
 `timescale 1ns / 1ps
-module mux4to1 (
-    input  wire i0,
-    input  wire i1,
-    input  wire i2,
-    input  wire i3,
-    input  wire [1:0] sel,
-    output wire y
-);
-    //
---
---
---
 
-   endmodule
+module mux4(I,S,y);
+input [3:0]I;
+input [1:0]S;
+output y;
+wire [4:1]W;
+and g1(W[1],(~S[0]),(~S[1]),I[0]);
+and g2(W[2],(~S[0]),S[1],I[1]);
+and g3(W[3],S[0],(~S[1]),I[2]);
+and g4(W[4],S[0],S[1],I[3]);
+or g5(y,W[1],W[2],W[3],W[4]);
+endmodule
+
 ```
 ## Constraint file for Seven-Segment Display
 ```
@@ -85,7 +84,8 @@ set_property -dict {PACKAGE_PIN G1 IOSTANDARD LVCMOS33} [get_ports {y}]
 ```
 ## FPGA Implementation Output
 
-![Mux](https://github.com/user-attachments/assets/40586d2d-e669-4d67-9be1-f481b4ff9cf2)
+![WhatsApp Image 2025-11-18 at 22 51 49_5cea61d2](https://github.com/user-attachments/assets/0eb73dfe-63c6-47d9-86c9-7d4255847ce8)
+
 
 ---
 
